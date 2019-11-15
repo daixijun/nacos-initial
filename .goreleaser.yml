@@ -7,22 +7,44 @@ before:
     # you may remove this if you don't need go generate
     - go generate ./...
 builds:
-- env:
-  - CGO_ENABLED=0
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    binary: app
+    ldflags:
+      - -s -w
+dockers:
+  - goos: linux
+    goarch: amd64
+    binaries:
+      - app
+    image_templates:
+      - "daixijun1990/nacos-initial:{{ .Tag }}"
+      - "daixijun1990/nacos-initial:v{{ .Major }}"
+      - "daixijun1990/nacos-initial:v{{ .Major }}.{{ .Minor }}"
+      - "daixijun1990/nacos-initial:latest"
+    build_flag_templates:
+      - "--label=org.label-schema.schema-version=1.0"
+      - "--label=org.label-schema.version={{.Version}}"
+      - "--label=org.label-schema.name={{.ProjectName}}"
 archives:
-- replacements:
-    darwin: Darwin
-    linux: Linux
-    windows: Windows
-    386: i386
-    amd64: x86_64
+  - replacements:
+      darwin: Darwin
+      linux: Linux
+      windows: Windows
+      386: i386
+      amd64: x86_64
 checksum:
-  name_template: 'checksums.txt'
+  name_template: "checksums.txt"
 snapshot:
   name_template: "{{ .Tag }}-next"
 changelog:
   sort: asc
   filters:
     exclude:
-    - '^docs:'
-    - '^test:'
+      - "^docs:"
+      - "^test:"
+      - "^ci:"
