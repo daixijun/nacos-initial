@@ -13,14 +13,14 @@ builds:
       - linux
       - darwin
       - windows
-    binary: app
+    binary: nacos-initial
     ldflags:
       - -s -w
 dockers:
   - goos: linux
     goarch: amd64
     binaries:
-      - app
+      - nacos-initial
     image_templates:
       - "daixijun1990/nacos-initial:{{ .Tag }}"
       - "daixijun1990/nacos-initial:v{{ .Major }}"
@@ -35,7 +35,7 @@ archives:
       darwin: Darwin
       linux: Linux
       windows: Windows
-      386: i386
+      # 386: i386
       amd64: x86_64
 checksum:
   name_template: "checksums.txt"
