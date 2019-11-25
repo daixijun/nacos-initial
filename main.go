@@ -18,6 +18,8 @@ var (
 	dataId      string
 	group       string
 	output      string
+	openKMS     bool
+	regionId    string
 )
 
 func init() {
@@ -28,6 +30,8 @@ func init() {
 	flag.StringVar(&dataId, "dataId", "", "Nacos/ACM dataId")
 	flag.StringVar(&group, "group", "DEFAULT_GROUP", "配置组")
 	flag.StringVar(&output, "o", "stdout", "输出配置到终端或者文件")
+	flag.BoolVar(&openKMS, "kms", false, "开启KMS自动解密配置内容")
+	flag.StringVar(&regionId, "regionId", "cn-hangzhou", "KMS所在区域")
 	flag.Parse()
 }
 
@@ -40,6 +44,8 @@ func main() {
 		SecretKey:      secretKey,
 		TimeoutMs:      5 * 1000,
 		ListenInterval: 30 * 1000,
+		OpenKMS:        openKMS,
+		RegionId:       regionId,
 	}
 
 	configClient, err := clients.CreateConfigClient(map[string]interface{}{
