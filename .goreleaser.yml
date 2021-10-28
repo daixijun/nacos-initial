@@ -19,17 +19,18 @@ builds:
 dockers:
   - goos: linux
     goarch: amd64
-    binaries:
-      - nacos-initial
     image_templates:
       - "daixijun1990/nacos-initial:{{ .Tag }}"
       - "daixijun1990/nacos-initial:v{{ .Major }}"
       - "daixijun1990/nacos-initial:v{{ .Major }}.{{ .Minor }}"
       - "daixijun1990/nacos-initial:latest"
     build_flag_templates:
-      - "--label=org.label-schema.schema-version=1.0"
-      - "--label=org.label-schema.version={{.Version}}"
-      - "--label=org.label-schema.name={{.ProjectName}}"
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--platform=linux/arm64"
 archives:
   - replacements:
       darwin: Darwin
@@ -48,3 +49,4 @@ changelog:
       - "^docs:"
       - "^test:"
       - "^ci:"
+      - "^chore"
