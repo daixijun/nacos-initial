@@ -4,35 +4,44 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"runtime"
 
 	"github.com/verystar/nacos-go-sdk"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
 var (
-	server      = kingpin.Flag("server", "Nacos server addr").Short('s').Required().Envar("NACOS_SERVER").String()
-	namespaceId = kingpin.Flag("namespace-id", "Nacos namespace id").Short('n').Required().Envar("NACOS_NAMESPACE_ID").String()
-	username    = kingpin.Flag("username", "nacos username").Short('u').Required().Envar("NACOS_USERNAME").String()
-	password    = kingpin.Flag("password", "Nacos password").Short('p').Required().Envar("NACOS_PASSWORD").String()
-	dataId      = kingpin.Flag("data-id", "Nacos data id").Short('d').Required().Envar("NACOS_DATA_ID").String()
+	server      = kingpin.Flag("server", "Nacos server addr").Short('s').Envar("NACOS_SERVER").String()
+	namespaceId = kingpin.Flag("namespace-id", "Nacos namespace id").Short('n').Envar("NACOS_NAMESPACE_ID").String()
+	username    = kingpin.Flag("username", "nacos username").Short('u').Envar("NACOS_USERNAME").String()
+	password    = kingpin.Flag("password", "Nacos password").Short('p').Envar("NACOS_PASSWORD").String()
+	dataId      = kingpin.Flag("data-id", "Nacos data id").Short('d').Envar("NACOS_DATA_ID").String()
 	group       = kingpin.Flag("group", "Nacos group name").Short('g').Default("DEFAULT_GROUP").Envar("NACOS_GROUP").String()
 	output      = kingpin.Flag("output", "Output to config file or stdout").Short('o').Default("stdout").Envar("NACOS_OUTPUT").String()
+	// showVersion = kingpin.Flag("version", "show version").Short('v').Bool()
+
+	// BuildInfo
+	version   = "dev"
+	revision  = "none"
+	builtDate = "unknown"
+	builtUser = "unknown"
+	goVersion = runtime.Version()
 )
 
-// func init() {
-
-// 	flag.StringVar(&server, "server", "", "Nacos server addr")
-// 	flag.StringVar(&namespaceId, "namespace", "", "Nacos namespace id")
-// 	flag.StringVar(&username, "username", "", "Nacos Username")
-// 	flag.StringVar(&password, "password", "", "Nacos Password")
-// 	flag.StringVar(&dataId, "dataId", "", "Nacos dataId")
-// 	flag.StringVar(&group, "group", "DEFAULT_GROUP", "Nacos Group")
-// 	flag.StringVar(&output, "o", "stdout", "output to config file or stdout")
-// }
-
 func main() {
-	// flag.Parse()
+	kingpin.Version(fmt.Sprintf(`
+version: %s
+revision: %s
+buildUser: %s
+buildDate: %s
+goVersion: %s
+platform: %s/%s`, version, revision, builtUser, builtDate, goVersion, runtime.GOOS, runtime.GOARCH))
 	kingpin.Parse()
+
+	// if *showVersion {
+	// 	fmt.Printf("version: %s", version)
+	// 	os.Exit(0)
+	// }
 
 	conf := nacos.NewNacosConfig(func(c *nacos.NacosConfig) {
 		c.Username = *username
