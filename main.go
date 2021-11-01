@@ -53,7 +53,7 @@ func main() {
 		if err != nil {
 			log.Fatalf("write config to file failed: %s\n", err.Error())
 		}
-		fmt.Println("write config to file succeed: ", output)
+		fmt.Println("write config to file succeed: ", *output)
 	}
 
 }
