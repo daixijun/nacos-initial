@@ -9,23 +9,24 @@ before:
 builds:
   - env:
       - CGO_ENABLED=0
-    goos:
-      - linux
-      - darwin
-      - windows
-    goarch:
-      - amd64
-      - arm
-      - arm64
-    goarm:
-      - 6
-      - 7
+    # goos:
+    #   - linux
+    #   - darwin
+    #   - windows
+    # goarch:
+    #   - amd64
+    #   - arm
+    #   - arm64
+    # goarm:
+    #   - 6
+    #   - 7
     binary: nacos-initial
     ldflags:
-      - -s -w -X main.version={{.Version}} -X main.revision={{.ShortCommit}} -X main.buildDate={{.Date}} -X main.builtBy=goreleaser
+      - -s -w -X main.version={{.Version}} -X main.revision={{.ShortCommit}} -X main.builtDate={{.Date}}
 dockers:
   - goos: linux
     goarch: amd64
+    goarm: ""
     image_templates:
       - "daixijun1990/nacos-initial:{{ .Tag }}"
       - "daixijun1990/nacos-initial:v{{ .Major }}"
