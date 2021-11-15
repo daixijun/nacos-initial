@@ -1,6 +1,6 @@
-FROM scratch
+FROM alpine:3.14
 LABEL MAINTAINER="Xijun Dai <daixijun1990@gmail.com>"
 
-COPY nacos-initial /
-ENTRYPOINT [ "/nacos-initial" ]
-CMD [ "-h" ]
+COPY nacos-initial /usr/local/bin/
+ENTRYPOINT [ "/usr/local/bin/nacos-initial" ]
+CMD [ "--help" ]
