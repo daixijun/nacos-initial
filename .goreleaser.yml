@@ -9,14 +9,14 @@ before:
 builds:
   - env:
       - CGO_ENABLED=0
-    # goos:
-    #   - linux
-    #   - darwin
-    #   - windows
-    # goarch:
-    #   - amd64
-    #   - arm
-    #   - arm64
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm
+      - arm64
     # goarm:
     #   - 6
     #   - 7
@@ -39,12 +39,14 @@ dockers:
       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
       - "--label=org.opencontainers.image.version={{.Version}}"
 archives:
-  - replacements:
-      darwin: Darwin
-      linux: Linux
-      windows: Windows
-      # 386: i386
-      amd64: x86_64
+  - format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+release:
+  github:
+    owner: daixijun
+    name: nacos-initial
 checksum:
   name_template: "checksums.txt"
 snapshot:
