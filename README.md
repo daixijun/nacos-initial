@@ -8,18 +8,18 @@ docker image: daixijun1990/nacos-initial
 
 ```shell
 $ ./nacos-initial --help
-usage: nacos-initial [<flags>]
+usage: nacos-initial --server=SERVER --namespace-id=NAMESPACE-ID --username=USERNAME --password=PASSWORD --data-id=DATA-ID [<flags>]
+
 
 Flags:
-      --help                   Show context-sensitive help (also try --help-long and --help-man).
-  -s, --server=SERVER          Nacos server addr
+      --[no-]help              Show context-sensitive help (also try --help-long and --help-man).
+  -s, --server=SERVER          Nacos server addr ($NACOS_SERVER)
   -n, --namespace-id=NAMESPACE-ID
-                               Nacos namespace id
-  -u, --username=USERNAME      nacos username
-  -p, --password=PASSWORD      Nacos password
-  -d, --data-id=DATA-ID        Nacos data id
-  -g, --group="DEFAULT_GROUP"  Nacos group name
-  -o, --output="stdout"        Output to config file or stdout
-      --version                Show application version.
-
+                               Nacos namespace id ($NACOS_NAMESPACE_ID)
+  -u, --username=USERNAME      nacos username ($NACOS_USERNAME)
+  -p, --password=PASSWORD      Nacos password ($NACOS_PASSWORD)
+  -d, --data-id=DATA-ID        Nacos data id ($NACOS_DATA_ID)
+  -g, --group="DEFAULT_GROUP"  Nacos group name ($NACOS_GROUP)
+  -o, --output="stdout"        Output to config file or stdout ($NACOS_OUTPUT)
+      --[no-]version           Show application version.
 ```
