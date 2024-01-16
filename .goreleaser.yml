@@ -3,11 +3,12 @@
 before:
   hooks:
     # you may remove this if you don't use vgo
-    - go mod tidy
+    - go mod tidy -v
     # you may remove this if you don't need go generate
     - go generate ./...
 builds:
-  - env:
+  - id: build
+    env:
       - CGO_ENABLED=0
     goos:
       - linux
@@ -15,23 +16,31 @@ builds:
       - windows
     goarch:
       - amd64
-      - arm
+      # - arm
       - arm64
-    # goarm:
-    #   - 6
-    #   - 7
+    goarm:
+      - "6"
+      - "7"
     binary: nacos-initial
     ldflags:
-      - -s -w -X main.version={{.Version}} -X main.revision={{.ShortCommit}} -X main.builtDate={{.Date}}
+      - -v -s -w -X main.version={{.Version}} -X main.revision={{.ShortCommit}} -X main.builtDate={{.Date}}
+
 dockers:
   - goos: linux
     goarch: amd64
     goarm: ""
+    use: buildx
+    ids:
+      - build
     image_templates:
-      - "daixijun1990/nacos-initial:{{ .Tag }}"
-      - "daixijun1990/nacos-initial:v{{ .Major }}"
-      - "daixijun1990/nacos-initial:v{{ .Major }}.{{ .Minor }}"
-      - "daixijun1990/nacos-initial:latest"
+      - "docker.io/daixijun1990/nacos-initial:{{ .Tag }}"
+      - "docker.io/daixijun1990/nacos-initial:v{{ .Major }}"
+      - "docker.io/daixijun1990/nacos-initial:v{{ .Major }}.{{ .Minor }}"
+      - "docker.io/daixijun1990/nacos-initial:latest"
+      - "ghcr.io/daixijun/nacos-initial:{{ .Tag }}"
+      - "ghcr.io/daixijun/nacos-initial:v{{ .Major }}"
+      - "ghcr.io/daixijun/nacos-initial:v{{ .Major }}.{{ .Minor }}"
+      - "ghcr.io/daixijun/nacos-initial:latest"
     build_flag_templates:
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
